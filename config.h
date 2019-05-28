@@ -13,7 +13,7 @@ extern "C" {
  * TMR1  : 10ms
  * TMR2  : 625ns (FOSC/4)
  * TMR4  : 2.5us (FOSC/4)
- * TMR6  : 4us   (FOSC/4)
+ * TMR6  : 1024us, Prescaled 1:128  (FOSC/4)
  * UART1 : 115200
  * I2C   : 400kHz (TMR4 Postscaled)
  * SPI   : 800kHz (TMR2 Postscaled)
@@ -45,8 +45,8 @@ extern "C" {
  *      CLCIN0 -|2  RA0                RB6 16|- N/C
  * BM78_SW_BTN -|3  RA1                RB5 17|- DHT11
  *  BM78_RST_N -|4  RA2                RB4 18|- TX (UART)
- *    BM78_P_0 -|5  RA3                RB3 19|- RX (UART)
- *    BM78_P_4 -|6  RA4                RB2 20|- CCP3
+ *   BM78_P2_0 -|5  RA3                RB3 19|- RX (UART)
+ *   BM78_P2_4 -|6  RA4                RB2 20|- CCP3
  *    BM78_EAN -|7  RA5     PIC18      RB1 21|- CCP2
  *         GND -|8  VSS      F27       RB0 22|- CCP1
  *     SUM_BTN -|9  RA7      K42       VDD 23|- VDD
@@ -73,7 +73,7 @@ uint8_t init = 0x00;
 // see lib/common.h
 #define STATUS_DISPLAY_ROW 1
 #define TIMER_PERIOD 10 // Timer period in ms.
-#define WATCHDOG_LED_LAT LATAbits.LATA6
+#define WATCHDOG_LED_LAT LED_STAT_LAT
 
 /* ---------------------------------- BM78 ---------------------------------- */
 // see modules/bm78.h
@@ -89,7 +89,7 @@ uint8_t init = 0x00;
                                           // for both, sending and receiving
 #define BM78_MAX_SEND_RETRIES 10          // Numer of send retries before giving
                                           // up (for certain packets)
-//#define BM78_ADVANCED_PAIRING             // Enable advanced pairing methods
+#define BM78_ADVANCED_PAIRING             // Enable advanced pairing methods
 #define BM78_SETUP_ENABLED                // Enable setup on initialization
 
 // see components/bm78_communication.h
@@ -277,8 +277,10 @@ const FlashPacket_t BM78_configuration[BM78_CONFIGURATION_SIZE] = {
 /* ---------------------------------- I2C ----------------------------------- */
 // see modules/i2c.h
 #define I2C_ENABLED
-//#define I2C_MSSP
-//#define I2C_MSSP_FOUNDATION
+#ifdef _PIC16F18857_H_
+//#define I2C_MSSP              // (PIC16F18857)
+#define I2C_MSSP_FOUNDATION // (PIC16F18857)
+#endif
 
 /* ---------------------------------- LCD ----------------------------------- */
 // see modules/lcd.h
@@ -299,7 +301,11 @@ const FlashPacket_t BM78_configuration[BM78_CONFIGURATION_SIZE] = {
 //#define U3_ADDRESS MCP_START_ADDRESS + 2
 
 /* --------------------------------- Memory --------------------------------- */
-#define MEM_INTERNAL_SIZE 0x03FF
+#if defined _PIC16F18857_H_
+#define MEM_INTERNAL_SIZE 0x00FF // (PIC16F18857)
+#else
+#define MEM_INTERNAL_SIZE 0x03FF // (PIC18F27K42)
+#endif
 //#define MEM_ADDRESS 0x50
 //#define MEM_SIZE ((uint16_t) 0xFFFF)
 
@@ -310,14 +316,13 @@ const FlashPacket_t BM78_configuration[BM78_CONFIGURATION_SIZE] = {
 /* ----------------------------- RGB LED Strip ------------------------------ */
 
 // see modules/rgb.h
-//#define RGB_ENABLED
 #define RGB_R_DUTY_CYCLE CCPR1L
 #define RGB_G_DUTY_CYCLE CCPR2L
 #define RGB_B_DUTY_CYCLE CCPR3L
 
 /* ----------------------------- State Machine ------------------------------ */
 // see module/setup_mode.h
-#define SUM_LED_LAT LATAbits.LATA6
+#define SUM_LED_LAT LED_STAT_LAT
 
 /* ----------------------------- State Machine ------------------------------ */
 // see module/state_machine.h
@@ -342,10 +347,17 @@ const FlashPacket_t BM78_configuration[BM78_CONFIGURATION_SIZE] = {
 /* ---------------------------- WS281x Neopixel ----------------------------- */
 
 // see modules/ws281x.h
-#define WS281x_BUFFER SPI1TXB            // Output PIN 
-#define WS281x_LED_COUNT 100             // Number of LEDs
+#if defined _PIC16F18857_H_
+#define WS281x_BUFFER SSP2BUF            // Output PIN (PIC16F18857)
+#else
+#define WS281x_BUFFER SPI1TXB            // Output PIN (PIC18F27K42)
+#endif
+#define WS281x_LED_COUNT 50              // Number of LEDs
 #define WS281x_TIMER_PERIOD TIMER_PERIOD // [ms] Period of update timer
 
+#define WS281x_LIGHT_ROWS 2              // # of rows (max. 7, but should be 1, 2 or 4)
+#define WS281x_LIGHT_ROW_COUNT 24        // LEDs in a row (<= WS281x_LED_COUNT, max. 255)
+#define WS281x_LIGHT_REST 2              // Rest LEDs (50 - 2 * 24 = 2)
 
 #ifdef	__cplusplus
 }

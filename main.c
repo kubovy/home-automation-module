@@ -42,7 +42,11 @@ void timerInterruptHandler(void) {
     RGB_update();
 #endif
 #ifdef WS281x_BUFFER
-    //WS281x_update();
+#if defined WS281x_LIGHT_ROWS && defined WS281x_LIGHT_ROW_COUNT
+    WS281xLight_update();
+#else
+    WS281x_update();
+#endif
 #endif
 }
 
@@ -72,26 +76,37 @@ void pirInterruptHandler(void) {
 void main(void) {
     SYSTEM_Initialize(); // initialize the device
 
+#ifdef _PIC16F18857_H_
     // When using interrupts, you need to set the Global and Peripheral
     // Interrupt Enable bits Use the following macros to:
-    //INTERRUPT_GlobalInterruptEnable();      // Enable the Global Interrupts
-    INTERRUPT_GlobalInterruptHighEnable();
-    INTERRUPT_GlobalInterruptLowEnable();
-    //INTERRUPT_GlobalInterruptDisable();   // Disable the Global Interrupts
+    INTERRUPT_GlobalInterruptEnable();        // Enable the Global Interrupts
+    //INTERRUPT_GlobalInterruptDisable();     // Disable the Global Interrupts
+    INTERRUPT_PeripheralInterruptEnable();    // Enable the Peripheral Interrupts
+    //INTERRUPT_PeripheralInterruptDisable(); // Disable the Peripheral Interrupts
+#else
+    INTERRUPT_GlobalInterruptHighEnable();    // Enable the High Priority Global Interrupts
+    INTERRUPT_GlobalInterruptLowEnable();     // Enable the Low Priority Global Interrupts
+#endif
 
     TMR1_SetInterruptHandler(timerInterruptHandler);
 #ifdef PIR_PORT
     IOCCF1_SetInterruptHandler(pirInterruptHandler);
 #endif
 
+#ifdef MEM_INITIALIZED_ADDR
     init = ~DATAEE_ReadByte(MEM_INITIALIZED_ADDR);
     //init = MEM_read16(MEM_ADDRESS, MEM_INITIALIZED_ADDR);
+#endif
 
 #ifdef RGB_ENABLED
     RGB_off();
 #endif
 #ifdef WS281x_BUFFER
+#if defined WS281x_LIGHT_ROWS && defined WS281x_LIGHT_ROW_COUNT
+    WS281xLight_off();
+#else
     WS281x_off();
+#endif
 #endif
 
 #ifdef LCD_ADDRESS
@@ -101,7 +116,7 @@ void main(void) {
     LCD_setString("      IOT v1.0      ", 1, true);
     LCD_setString(" 2019 (c) Jan Kubovy", 3, true);
 #endif
-//
+
 #ifdef TESTER_ADDRESS
     MCP_write(TESTER_ADDRESS, MCP_IOCON,    0b00000010); // Sets the polarity of the INT output pin to active-high
     //MCP_write(TESTER_ADDRESS, MCP_IODIRA,   0b00000000); // GPIOA of as output
@@ -127,13 +142,17 @@ void main(void) {
                     BMC_bm78TransparentDataHandler,
                     BMC_bm78MessageSentHandler,
                     NULL); // Error Handler
+    BM78_power(true);
 #endif
 
     while(1) {
 #ifdef BM78_ENABLED
         BM78_checkNewDataAsync();
 #endif
-        if (SUM_BTN_PORT) watchDogTrigger(&watchDogCounter, watchDogLedPeriod, NULL);
+#ifdef SUM_BTN_PORT
+        if (SUM_BTN_PORT)
+#endif
+        /* conditional */watchDogTrigger(&watchDogCounter, watchDogLedPeriod, NULL);
 
         if (doTimerInterrupt) {
             doTimerInterrupt = false;
@@ -162,9 +181,12 @@ void main(void) {
                     break;
             }
 #endif
+#ifdef RGB_ENABLED
+    //RGB_update();
+#endif
 #ifdef WS281x_BUFFER
-            WS281x_update();
-            //WS281x_show();
+    //WS281x_update();
+    //WS281x_show();
 #endif
         }
         
