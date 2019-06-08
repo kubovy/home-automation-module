@@ -1,4 +1,4 @@
-    /* 
+/* 
  * File:   config_dist.h
  * Author: Jan Kubovy &lt;jan@kubovy.eu&gt;
  */
@@ -315,6 +315,7 @@ const FlashPacket_t BM78_configuration[BM78_CONFIGURATION_SIZE] = {
 // Due to use of MCP constants here (must appear after MCP23017_ENABLED definition)
 #include "mclib/modules/mcp23017.h"
 #define TESTER_ADDRESS MCP23017_START_ADDRESS // 0x20
+#define TESTER_PORT MCP23017_PORTB
 #define MCP23017_KEYPAD_INVERSE
 
 //#define U1_ADDRESS MCP23017_START_ADDRESS
@@ -324,7 +325,7 @@ const FlashPacket_t BM78_configuration[BM78_CONFIGURATION_SIZE] = {
 /* ------------------------------ MCP2200/21 -------------------------------- */
 
 //#define MCP2200_ENABLED
-#define MCP2221_ENABLED
+//#define MCP2221_ENABLED
 
 /* --------------------------------- Memory --------------------------------- */
 #if defined _PIC16F18857_H_
@@ -369,7 +370,7 @@ const FlashPacket_t BM78_configuration[BM78_CONFIGURATION_SIZE] = {
 /* --------------------------------- UART ----------------------------------- */
 
 #define UART1_ENABLED
-#define UART2_ENABLED
+//#define UART2_ENABLED
 //#define EUSART_ENABLED
 
 /* ---------------------------- WS281x Neopixel ----------------------------- */
