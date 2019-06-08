@@ -62,9 +62,9 @@ void  INTERRUPT_Initialize (void)
     // UTXI - high priority
     IPR3bits.U1TXIP = 1;
 
-    // IOCI - high priority
-    IPR0bits.IOCIP = 1;
 
+    // IOCI - low priority
+    IPR0bits.IOCIP = 0;    
 
     // TMRI - low priority
     IPR4bits.TMR1IP = 0;    
@@ -82,15 +82,15 @@ void __interrupt() INTERRUPT_InterruptManagerHigh (void)
     {
         UART1_TxInterruptHandler();
     }
-    if(PIE0bits.IOCIE == 1 && PIR0bits.IOCIF == 1)
-    {
-        PIN_MANAGER_IOC();
-    }
 }
 
 void __interrupt(low_priority) INTERRUPT_InterruptManagerLow (void)
 {
     // interrupt handler
+    if(PIE0bits.IOCIE == 1 && PIR0bits.IOCIF == 1)
+    {
+        PIN_MANAGER_IOC();
+    }
     if(PIE4bits.TMR1IE == 1 && PIR4bits.TMR1IF == 1)
     {
         TMR1_ISR();

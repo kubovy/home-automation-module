@@ -278,24 +278,24 @@
 #define RB4_SetDigitalMode()        do { ANSELBbits.ANSELB4 = 0; } while(0)
 
 // get/set DHT11 aliases
-#define DHT11_TRIS                 TRISBbits.TRISB5
-#define DHT11_LAT                  LATBbits.LATB5
-#define DHT11_PORT                 PORTBbits.RB5
-#define DHT11_WPU                  WPUBbits.WPUB5
-#define DHT11_OD                   ODCONBbits.ODCB5
-#define DHT11_ANS                  ANSELBbits.ANSELB5
-#define DHT11_SetHigh()            do { LATBbits.LATB5 = 1; } while(0)
-#define DHT11_SetLow()             do { LATBbits.LATB5 = 0; } while(0)
-#define DHT11_Toggle()             do { LATBbits.LATB5 = ~LATBbits.LATB5; } while(0)
-#define DHT11_GetValue()           PORTBbits.RB5
-#define DHT11_SetDigitalInput()    do { TRISBbits.TRISB5 = 1; } while(0)
-#define DHT11_SetDigitalOutput()   do { TRISBbits.TRISB5 = 0; } while(0)
-#define DHT11_SetPullup()          do { WPUBbits.WPUB5 = 1; } while(0)
-#define DHT11_ResetPullup()        do { WPUBbits.WPUB5 = 0; } while(0)
-#define DHT11_SetPushPull()        do { ODCONBbits.ODCB5 = 0; } while(0)
-#define DHT11_SetOpenDrain()       do { ODCONBbits.ODCB5 = 1; } while(0)
-#define DHT11_SetAnalogMode()      do { ANSELBbits.ANSELB5 = 1; } while(0)
-#define DHT11_SetDigitalMode()     do { ANSELBbits.ANSELB5 = 0; } while(0)
+#define DHT11_TRIS                 TRISCbits.TRISC0
+#define DHT11_LAT                  LATCbits.LATC0
+#define DHT11_PORT                 PORTCbits.RC0
+#define DHT11_WPU                  WPUCbits.WPUC0
+#define DHT11_OD                   ODCONCbits.ODCC0
+#define DHT11_ANS                  ANSELCbits.ANSELC0
+#define DHT11_SetHigh()            do { LATCbits.LATC0 = 1; } while(0)
+#define DHT11_SetLow()             do { LATCbits.LATC0 = 0; } while(0)
+#define DHT11_Toggle()             do { LATCbits.LATC0 = ~LATCbits.LATC0; } while(0)
+#define DHT11_GetValue()           PORTCbits.RC0
+#define DHT11_SetDigitalInput()    do { TRISCbits.TRISC0 = 1; } while(0)
+#define DHT11_SetDigitalOutput()   do { TRISCbits.TRISC0 = 0; } while(0)
+#define DHT11_SetPullup()          do { WPUCbits.WPUC0 = 1; } while(0)
+#define DHT11_ResetPullup()        do { WPUCbits.WPUC0 = 0; } while(0)
+#define DHT11_SetPushPull()        do { ODCONCbits.ODCC0 = 0; } while(0)
+#define DHT11_SetOpenDrain()       do { ODCONCbits.ODCC0 = 1; } while(0)
+#define DHT11_SetAnalogMode()      do { ANSELCbits.ANSELC0 = 1; } while(0)
+#define DHT11_SetDigitalMode()     do { ANSELCbits.ANSELC0 = 0; } while(0)
 
 // get/set PIR aliases
 #define PIR_TRIS                 TRISCbits.TRISC1

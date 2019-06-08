@@ -1,17 +1,17 @@
 /**
-  UART1 Generated Driver API Header File
+  UART2 Generated Driver API Header File
 
   @Company
     Microchip Technology Inc.
 
   @File Name
-    uart1.h
+    uart2.h
 
   @Summary
-    This is the generated header file for the UART1 driver using PIC10 / PIC12 / PIC16 / PIC18 MCUs
+    This is the generated header file for the UART2 driver using PIC10 / PIC12 / PIC16 / PIC18 MCUs
 
   @Description
-    This header file provides APIs for driver for UART1.
+    This header file provides APIs for driver for UART2.
     Generation Information :
         Product Revision  :  PIC10 / PIC12 / PIC16 / PIC18 MCUs - 1.76
         Device            :  PIC18F27K42
@@ -44,8 +44,8 @@
     SOFTWARE.
 */
 
-#ifndef UART1_H
-#define UART1_H
+#ifndef UART2_H
+#define UART2_H
 
 /**
   Section: Included Files
@@ -65,7 +65,7 @@
   Section: Macro Declarations
 */
 
-#define UART1_DataReady  (UART1_is_rx_ready())
+#define UART2_DataReady  (UART2_is_rx_ready())
 
 /**
   Section: Data Type Definitions
@@ -79,25 +79,25 @@ typedef union {
         unsigned reserved : 5;
     };
     uint8_t status;
-}uart1_status_t;
+}uart2_status_t;
 
 /**
  Section: Global variables
  */
-extern volatile uint8_t uart1TxBufferRemaining;
-extern volatile uint8_t uart1RxCount;
+extern volatile uint8_t uart2TxBufferRemaining;
+extern volatile uint8_t uart2RxCount;
 
 /**
-  Section: UART1 APIs
+  Section: UART2 APIs
 */
 
 /**
   @Summary
-    Initialization routine that takes inputs from the UART1 GUI.
+    Initialization routine that takes inputs from the UART2 GUI.
 
   @Description
-    This routine initializes the UART1 driver.
-    This routine must be called before any other UART1 routine is called.
+    This routine initializes the UART2 driver.
+    This routine must be called before any other UART2 routine is called.
 
   @Preconditions
     None
@@ -112,27 +112,27 @@ extern volatile uint8_t uart1RxCount;
 
   @Example
 */
-void UART1_Initialize(void);
+void UART2_Initialize(void);
 
 /**
   @Summary
-    Checks if UART1 receiver is empty
+    Checks if UART2 receiver is empty
 
   @Description
     This routine returns the available number of bytes to be read 
-    from UART1 receiver
+    from UART2 receiver
 
   @Preconditions
-    UART1_Initialize() function should be called
+    UART2_Initialize() function should be called
     before calling this function
-    UART1 receiver should be enabled before calling this 
+    UART2 receiver should be enabled before calling this 
     function
 
   @Param
     None
 
   @Returns
-    The number of bytes UART1 has available for reading
+    The number of bytes UART2 has available for reading
     
   @Example
     <code>
@@ -149,39 +149,39 @@ void UART1_Initialize(void);
         while(1)
         {
             // Logic to echo received data
-            if(UART1_is_rx_ready())
+            if(UART2_is_rx_ready())
             {
-                rxData = UART1_Read();
-                if(UART1_is_tx_ready())
+                rxData = UART2_Read();
+                if(UART2_is_tx_ready())
                 {
-                    UART1_Write(rxData);
+                    UART2_Write(rxData);
                 }
             }
         }
     }
     </code>
 */
-uint8_t UART1_is_rx_ready(void);
+uint8_t UART2_is_rx_ready(void);
 
 /**
   @Summary
-    Checks if the UART1 transmitter is ready
+    Checks if the UART2 transmitter is ready
 
   @Description
-    This routine checks if UART1 transmitter is empty and ready
+    This routine checks if UART2 transmitter is empty and ready
     for next transmission
 
   @Preconditions
-    UART1_Initialize() function should have been called
+    UART2_Initialize() function should have been called
     before calling this function.
-    UART1 transmitter should be enabled before calling 
+    UART2 transmitter should be enabled before calling 
     this function
 
   @Param
     None
 
   @Returns
-    The number of available bytes that UART1 has remaining in 
+    The number of available bytes that UART2 has remaining in 
     its transmit buffer
     
   @Example
@@ -199,38 +199,38 @@ uint8_t UART1_is_rx_ready(void);
         while(1)
         {
             // Logic to echo received data
-            if(UART1_is_rx_ready())
+            if(UART2_is_rx_ready())
             {
-                rxData = UART1_Read();
-                if(UART1_is_tx_ready())
+                rxData = UART2_Read();
+                if(UART2_is_tx_ready())
                 {
-                    UART1_Write(rxData);
+                    UART2_Write(rxData);
                 }
             }
         }
     }
     </code>
 */
-uint8_t UART1_is_tx_ready(void);
+uint8_t UART2_is_tx_ready(void);
 
 /**
   @Summary
-    Checks if UART1 data is transmitted
+    Checks if UART2 data is transmitted
 
   @Description
     This function return the status of transmit shift register
 
   @Preconditions
-    UART1_Initialize() function should be called
+    UART2_Initialize() function should be called
     before calling this function
-    UART1 transmitter should be enabled and UART1_Write
+    UART2 transmitter should be enabled and UART2_Write
     should be called before calling this function
 
   @Param
     None
 
   @Returns
-    Status of UART1 transmit shift register
+    Status of UART2 transmit shift register
     TRUE: Data completely shifted out if the UART shift register
     FALSE: Data is not completely shifted out of the shift register
     
@@ -245,12 +245,12 @@ uint8_t UART1_is_tx_ready(void);
         
         while(1)
         {
-            if(UART1_is_tx_ready())
+            if(UART2_is_tx_ready())
             {
                 LED_0_SetHigh();
-                UART1Write(rxData);
+                UART2Write(rxData);
             }
-            if(UART1_is_tx_done()
+            if(UART2_is_tx_done()
             {
                 LED_0_SetLow();
             }
@@ -258,7 +258,7 @@ uint8_t UART1_is_tx_ready(void);
     }
     </code>
 */
-bool UART1_is_tx_done(void);
+bool UART2_is_tx_done(void);
 
 /**
   @Summary
@@ -268,7 +268,7 @@ bool UART1_is_tx_done(void);
     This routine gets the error status of the last read byte.
 
   @Preconditions
-    UART1_Initialize() function should have been called
+    UART2_Initialize() function should have been called
     before calling this function. The returned value is only
     updated after a read is called.
 
@@ -283,7 +283,7 @@ bool UART1_is_tx_done(void);
     void main(void)
     {
         volatile uint8_t rxData;
-        volatile uart1_status_t rxStatus;
+        volatile uart2_status_t rxStatus;
         
         // Initialize the device
         SYSTEM_Initialize();
@@ -294,10 +294,10 @@ bool UART1_is_tx_done(void);
         while(1)
         {
             // Logic to echo received data
-            if(UART1_is_rx_ready())
+            if(UART2_is_rx_ready())
             {
-                rxData = UART1_Read();
-                rxStatus = UART1_get_last_status();
+                rxData = UART2_Read();
+                rxStatus = UART2_get_last_status();
                 if(rxStatus.ferr){
                     LED_0_SetHigh();
                 }
@@ -306,21 +306,21 @@ bool UART1_is_tx_done(void);
     }
     </code>
  */
-uart1_status_t UART1_get_last_status(void);
+uart2_status_t UART2_get_last_status(void);
 
 /**
   @Summary
-    Read a byte of data from the UART1.
+    Read a byte of data from the UART2.
 
   @Description
-    This routine reads a byte of data from the UART1.
+    This routine reads a byte of data from the UART2.
 
   @Preconditions
-    UART1_Initialize() function should have been called
+    UART2_Initialize() function should have been called
     before calling this function. The transfer status should be checked to see
     if the receiver is not empty before calling this function.
 	
-	UART1_DataReady is a macro which checks if any byte is received.
+	UART2_DataReady is a macro which checks if any byte is received.
 	Call this macro before using this function.
 
   @Param
@@ -348,39 +348,39 @@ uart1_status_t UART1_get_last_status(void);
                             printf("\t\t---- ----\n\n\r");
                             printf("Enter any string: ");
                             do{
-                            data = UART1_Read();		// Read data received
-                            UART1_Write(data);			// Echo back the data received
-                            }while(!UART1_DataReady);		//check if any data is received
+                            data = UART2_Read();		// Read data received
+                            UART2_Write(data);			// Echo back the data received
+                            }while(!UART2_DataReady);		//check if any data is received
 
                     }
     </code>
 */
-uint8_t UART1_Read(void);
+uint8_t UART2_Read(void);
 
  /**
   @Summary
-    Writes a byte of data to the UART1.
+    Writes a byte of data to the UART2.
 
   @Description
-    This routine writes a byte of data to the UART1.
+    This routine writes a byte of data to the UART2.
 
   @Preconditions
-    UART1_Initialize() function should have been called
+    UART2_Initialize() function should have been called
     before calling this function. The transfer status should be checked to see
     if transmitter is not busy before calling this function.
 
   @Param
-    txData  - Data byte to write to the UART1
+    txData  - Data byte to write to the UART2
 
   @Returns
     None
   
   @Example
       <code>
-          Refer to UART1_Read() for an example	
+          Refer to UART2_Read() for an example	
       </code>
 */
-void UART1_Write(uint8_t txData);
+void UART2_Write(uint8_t txData);
 
 /**
   @Summary
@@ -392,7 +392,7 @@ void UART1_Write(uint8_t txData);
     transmitter needs to be maintained in a non polled manner.
 
   @Preconditions
-    UART1_Initialize() function should have been called
+    UART2_Initialize() function should have been called
     for the ISR to execute correctly.
 
   @Param
@@ -401,7 +401,7 @@ void UART1_Write(uint8_t txData);
   @Returns
     None
 */     
-void UART1_Transmit_ISR(void);
+void UART2_Transmit_ISR(void);
 
 /**
   @Summary
@@ -413,7 +413,7 @@ void UART1_Transmit_ISR(void);
     receiver needs to be maintained in a non polled manner.
 
   @Preconditions
-    UART1_Initialize() function should have been called
+    UART2_Initialize() function should have been called
     for the ISR to execute correctly.
 
   @Param
@@ -422,7 +422,7 @@ void UART1_Transmit_ISR(void);
   @Returns
     None
 */       
-void UART1_Receive_ISR(void);
+void UART2_Receive_ISR(void);
 
 /**
   @Summary
@@ -434,7 +434,7 @@ void UART1_Receive_ISR(void);
     ISR to maintain normal behavior
 
   @Preconditions
-    UART1_Initialize() function should have been called
+    UART2_Initialize() function should have been called
     for the ISR to execute correctly.
 
   @Param
@@ -443,17 +443,17 @@ void UART1_Receive_ISR(void);
   @Returns
     None
 */
-void UART1_RxDataHandler(void);
+void UART2_RxDataHandler(void);
 
 /**
   @Summary
-    Set UART1 Framing Error Handler
+    Set UART2 Framing Error Handler
 
   @Description
-    This API sets the function to be called upon UART1 framing error
+    This API sets the function to be called upon UART2 framing error
 
   @Preconditions
-    Initialize  the UART1 before calling this API
+    Initialize  the UART2 before calling this API
 
   @Param
     Address of function to be set as framing error handler
@@ -461,17 +461,17 @@ void UART1_RxDataHandler(void);
   @Returns
     None
 */
-void UART1_SetFramingErrorHandler(void (* interruptHandler)(void));
+void UART2_SetFramingErrorHandler(void (* interruptHandler)(void));
 
 /**
   @Summary
-    Set UART1 Overrun Error Handler
+    Set UART2 Overrun Error Handler
 
   @Description
-    This API sets the function to be called upon UART1 overrun error
+    This API sets the function to be called upon UART2 overrun error
 
   @Preconditions
-    Initialize  the UART1 module before calling this API
+    Initialize  the UART2 module before calling this API
 
   @Param
     Address of function to be set as overrun error handler
@@ -479,17 +479,17 @@ void UART1_SetFramingErrorHandler(void (* interruptHandler)(void));
   @Returns
     None
 */
-void UART1_SetOverrunErrorHandler(void (* interruptHandler)(void));
+void UART2_SetOverrunErrorHandler(void (* interruptHandler)(void));
 
 /**
   @Summary
-    Set UART1 Error Handler
+    Set UART2 Error Handler
 
   @Description
-    This API sets the function to be called upon UART1 error
+    This API sets the function to be called upon UART2 error
 
   @Preconditions
-    Initialize  the UART1 module before calling this API
+    Initialize  the UART2 module before calling this API
 
   @Param
     Address of function to be set as error handler
@@ -497,19 +497,19 @@ void UART1_SetOverrunErrorHandler(void (* interruptHandler)(void));
   @Returns
     None
 */
-void UART1_SetErrorHandler(void (* interruptHandler)(void));
+void UART2_SetErrorHandler(void (* interruptHandler)(void));
 
 
 
 /**
   @Summary
-    UART1 Receive Interrupt Handler
+    UART2 Receive Interrupt Handler
 
   @Description
-    This is a pointer to the function that will be called upon UART1 receive interrupt
+    This is a pointer to the function that will be called upon UART2 receive interrupt
 
   @Preconditions
-    Initialize  the UART1 module with receive interrupt enabled
+    Initialize  the UART2 module with receive interrupt enabled
 
   @Param
     None
@@ -517,17 +517,17 @@ void UART1_SetErrorHandler(void (* interruptHandler)(void));
   @Returns
     None
 */
-void (*UART1_RxInterruptHandler)(void);
+void (*UART2_RxInterruptHandler)(void);
 
 /**
   @Summary
-    UART1 Transmit Interrupt Handler
+    UART2 Transmit Interrupt Handler
 
   @Description
-    This is a pointer to the function that will be called upon UART1 transmit interrupt
+    This is a pointer to the function that will be called upon UART2 transmit interrupt
 
   @Preconditions
-    Initialize  the UART1 module with transmit interrupt enabled
+    Initialize  the UART2 module with transmit interrupt enabled
 
   @Param
     None
@@ -535,19 +535,19 @@ void (*UART1_RxInterruptHandler)(void);
   @Returns
     None
 */
-void (*UART1_TxInterruptHandler)(void);
+void (*UART2_TxInterruptHandler)(void);
 
 
 
 /**
   @Summary
-    Set UART1 Receive Interrupt Handler
+    Set UART2 Receive Interrupt Handler
 
   @Description
-    This API sets the function to be called upon UART1 receive interrupt
+    This API sets the function to be called upon UART2 receive interrupt
 
   @Preconditions
-    Initialize  the UART1 module with receive interrupt enabled before calling this API
+    Initialize  the UART2 module with receive interrupt enabled before calling this API
 
   @Param
     Address of function to be set as receive interrupt handler
@@ -555,17 +555,17 @@ void (*UART1_TxInterruptHandler)(void);
   @Returns
     None
 */
-void UART1_SetRxInterruptHandler(void (* InterruptHandler)(void));
+void UART2_SetRxInterruptHandler(void (* InterruptHandler)(void));
 
 /**
   @Summary
-    Set UART1 Transmit Interrupt Handler
+    Set UART2 Transmit Interrupt Handler
 
   @Description
-    This API sets the function to be called upon UART1 transmit interrupt
+    This API sets the function to be called upon UART2 transmit interrupt
 
   @Preconditions
-    Initialize  the UART1 module with transmit interrupt enabled before calling this API
+    Initialize  the UART2 module with transmit interrupt enabled before calling this API
 
   @Param
     Address of function to be set as transmit interrupt handler
@@ -573,7 +573,7 @@ void UART1_SetRxInterruptHandler(void (* InterruptHandler)(void));
   @Returns
     None
 */
-void UART1_SetTxInterruptHandler(void (* InterruptHandler)(void));
+void UART2_SetTxInterruptHandler(void (* InterruptHandler)(void));
 
 
 
@@ -583,7 +583,7 @@ void UART1_SetTxInterruptHandler(void (* InterruptHandler)(void));
 
 #endif
 
-#endif  // UART1_H
+#endif  // UART2_H
 /**
  End of File
 */

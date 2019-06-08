@@ -69,12 +69,12 @@ void PIN_MANAGER_Initialize(void)
     */
     TRISA = 0x81;
     TRISB = 0xC8;
-    TRISC = 0x87;
+    TRISC = 0x86;
 
     /**
     ANSELx registers
     */
-    ANSELC = 0x01;
+    ANSELC = 0x00;
     ANSELB = 0xC0;
     ANSELA = 0x00;
 
@@ -84,7 +84,7 @@ void PIN_MANAGER_Initialize(void)
     WPUE = 0x00;
     WPUB = 0x20;
     WPUA = 0x80;
-    WPUC = 0x82;
+    WPUC = 0x83;
 
     /**
     RxyI2C registers
